@@ -6,6 +6,7 @@ package trafficrobot;
  */
 public class TrafficRobot {
     
+    public static boolean verboseLog = false;
     
     /**
      * @param args the command line arguments
@@ -19,6 +20,12 @@ public class TrafficRobot {
         int speed = 50;
         if (args.length > 0) {
             speed = Integer.parseInt(args[0]);
+        }
+        
+        if (args.length > 1) {
+            if (args[1].equals("1")) {
+                verboseLog = true;
+            }
         }
         
         new RobotCar(5937, speed);

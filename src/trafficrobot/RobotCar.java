@@ -80,7 +80,7 @@ public class RobotCar implements Runnable{
                         this.travel(Double.parseDouble(l.get(1)), Double.parseDouble(l.get(2)), Double.parseDouble(next.get(1)), Double.parseDouble(next.get(2)));
                     }
                     catch (IndexOutOfBoundsException e) {
-                        log("Do not have any travel points anymore, requesting next data");
+                        log("Do not have any travel points anymore, requesting next data", false);
                         break;
                     }
                     /*
@@ -88,7 +88,7 @@ public class RobotCar implements Runnable{
                      * If so - exiting main loop and terminating robot
                      */
                     if (this.checkOnShutdown(l.get(3))) {
-                        log("Current time is " + l.get(3) + " - shutting down...");
+                        log("Current time is " + l.get(3) + " - shutting down...", false);
                         break outerloop;
                     }
                     
@@ -130,10 +130,10 @@ public class RobotCar implements Runnable{
    private void travel(double lat1, double lon1, double lat2, double lon2) {
         double travelTime = this.getTravelTime(lat1, lon1, lat2, lon2);
         int timeToSleep = (int)(travelTime * 60 * 1000);
-        log("Travelling from " + Double.toString(lat1) + " " + Double.toString(lon1) + " to " +  Double.toString(lat2) + " " + Double.toString(lon2));
-        log("Will take about " + timeToSleep / 1000 + "seconds with a speed " + this.speed + "km/h");
+        log("Travelling from " + Double.toString(lat1) + " " + Double.toString(lon1) + " to " +  Double.toString(lat2) + " " + Double.toString(lon2), false);
+        log("Will take about " + timeToSleep / 1000 + "seconds with a speed " + this.speed + "km/h", false);
         try{
-            //Thread.currentThread().sleep(timeToSleep);
+            Thread.currentThread().sleep(timeToSleep);
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -160,9 +160,9 @@ public class RobotCar implements Runnable{
                 Random r = new Random();
                 int rn = r.nextInt(3-1) + 1;
                 this.dispatcher.reportOnTraffic(robotId, this.speed, rn, time, l.get(0));
-                log("-------------------------------------------------------------------------------------");
-                log("In a range of " + l.get(0) + " station, traffic status is " + rn + ", time is " + time);
-                log("-------------------------------------------------------------------------------------");
+                log("-------------------------------------------------------------------------------------", true);
+                log("In a range of " + l.get(0) + " station, traffic status is " + rn + ", time is " + time, true);
+                log("-------------------------------------------------------------------------------------", true);
             }
        }
        return true;
@@ -173,9 +173,16 @@ public class RobotCar implements Runnable{
     * This method will send a log message from robot to dispatcher
     * @param message String
     */
-   private void log(String message) {
-       dispatcher.message(this.robotId, message);
-   }
+   private void log(String message, boolean important) {
+       if (TrafficRobot.verboseLog == true) {
+           dispatcher.message(this.robotId, message);
+       }
+       else {
+           if (important == true) {
+               dispatcher.message(this.robotId, message);
+           }
+       }
+    }
    
    
    /**
