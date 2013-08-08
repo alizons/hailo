@@ -28,7 +28,7 @@ public class TrafficRobot {
             }
         }
         
-        new RobotCar(5937, speed);
-        new RobotCar(6043, speed);
+        new RobotCar(5937, speed, new Dispatcher());
+        new RobotCar(6043, speed, new Dispatcher());
     }
 }
