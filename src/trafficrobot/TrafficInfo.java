@@ -4,6 +4,8 @@
  */
 package trafficrobot;
 
+import trafficrobot.*;
+
 /**
  *
  * @author aliknematov

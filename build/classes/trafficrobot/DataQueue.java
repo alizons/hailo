@@ -35,6 +35,7 @@ public class DataQueue {
      * @param data TrafficInfo
      */
     public void propoganateData(TrafficInfo data) {
+        System.out.println(data.getRobotId());
         JSONObject json = new JSONObject();
         json.put("robot_id", data.getRobotId());
         json.put("speed", data.getSpeed());
